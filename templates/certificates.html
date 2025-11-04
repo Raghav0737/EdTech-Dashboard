@@ -207,19 +207,19 @@
         }
 
         .certificates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 24px;
+            display: flex;
+    align-items: flex-start; 
+     gap: 24px; 
         }
-
-        .certificate-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
+.certificate-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: hidden; /* This is important! It keeps the banner's corners rounded */
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    margin-bottom: 24px;/* Adds space between cards */
+}
 
         .certificate-card:hover {
             transform: translateY(-4px);
@@ -414,29 +414,70 @@
                 <div class="stat-card">
                     <div class="stat-icon purple">📜</div>
                     <div class="stat-info">
-                        <h3>12</h3>
+                        <h3>
+                            {{total_crtf}}
+                        </h3>
                         <p>Total Certificates</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon green">✓</div>
                     <div class="stat-info">
-                        <h3>10</h3>
+                        <h3>
+                            {{crtf_count}}
+                        </h3>
                         <p>Verified</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon orange">⏳</div>
                     <div class="stat-info">
-                        <h3>2</h3>
+                        <h3>
+                            {{pending_crtf}}
+                        </h3>
                         <p>Pending Verification</p>
                     </div>
                 </div>
             </div>
 
             <div class="certificates-grid" id="certificatesGrid">
+                {% for i in range(total_crtf) %}
+                    <div class="certificate-card" data-category="technical" data-status="verified">
+                    <div class="cert-preview purple">
+                        <div class="cert-preview-icon">🔐</div>
+                    </div>
+                    <div class="cert-content">
+                        <div class="cert-header">
+                            <div>
+                                <div class="cert-title">
+                                    {{content['certifications'][i]}}
+                                </div>
+                                <div class="cert-issuer">
+                                    {{content['issuing authority'][i]}}
+                                </div>
+                            </div>
+                            <div class="cert-badge verified">Verified</div>
+                        </div>
+                        <!-- <div class="cert-meta">
+                            <div class="cert-meta-item">
+                                <span>📅</span>
+                                <span>Oct 2024</span>
+                            </div> -->
+                            <!-- <div class="cert-meta-item">
+                                <span>🔗</span>
+                                <span>ID: AWS-1234</span>
+                            </div>
+                        
+                            <! <button class="btn btn-secondary">
+                                <span>👁</span>
+                                View
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
                 <!-- Certificate Cards -->
-                <div class="certificate-card" data-category="technical" data-status="verified">
+                <!-- <div class="certificate-card" data-category="technical" data-status="verified">
                     <div class="cert-preview purple">
                         <div class="cert-preview-icon">🔐</div>
                     </div>
@@ -644,7 +685,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

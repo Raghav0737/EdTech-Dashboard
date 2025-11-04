@@ -6,7 +6,7 @@ prompt_extract = PromptTemplate(template="""
         ### INSTRUCTION:
         The scraped text is from the Resume of a candidate looking for jobs.
         Your job is to extract the content of this resume and return them in JSON format containing the 
-        following keys: `certifications`,`certificate links`, `issuing authority`, `date earned` and `platform link` .In platform link key add the links that are present in resume contentwhich are similar to used to practice coding like code360,leetcode,hackersrank,github ,etc.
+        following keys: `certifications`,`certificate links`, `issuing authority`, `date earned` and `platform link` .In platform link key add the links that are present in resume contentwhich are similar to used to practice coding like code360,leetcode,hackersrank,github ,etc. and for certificate links use platforms like credly,certifier,unstop ,etc.
         Only return the valid JSON. Store records of a key in form of list always.if a key has multiple values store those values in the form of a list .
         Refer to the Example :
        " {{'certifications': [certificate1,certificate2,certificate3],

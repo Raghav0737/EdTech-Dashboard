@@ -3,8 +3,10 @@ import os
 from werkzeug.utils import secure_filename
 from utils.llms import get_resume_content, get_json_output, get_str_output, get_readiness_score
 from utils.stats import get_performance_score
-app = Flask(__name__)
+from utils.verification import verify_public_badge
 
+app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # Create it if it doesn’t exist
@@ -36,6 +38,7 @@ def upload_resume():
 def dashboard():
     content = get_resume_content(resume_path)
     json_content = get_json_output(content)
+    session['content']=json_content
     analysis_quote = get_str_output(content)
     readiness_score = get_readiness_score(content)
     performance = 0
@@ -49,7 +52,17 @@ def dashboard():
 
 @app.route('/dashboard/certificates')
 def certificates():
-    return render_template('certificates.html')
+    content = session['content']
+    del session['content']
+    if content['certificate links']:
+        list = content['certificate links']
+        count = 0
+        for i in range(len(list)):
+            if verify_public_badge(list[i]):
+                count += 1
+    else :
+        count = 0
+    return render_template('certificates.html',total_crtf=len(content['certifications']),crtf_count= count,pending_crtf=len(content['certifications'])-count,content=content)
 
 if __name__ == "__main__":
     app.run()

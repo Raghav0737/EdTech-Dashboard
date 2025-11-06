@@ -27,6 +27,7 @@ def upload_resume():
         resume = request.files['resume']
         filename = secure_filename(resume.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        desc = request.form['job_description']
         resume.save(filepath)
         global resume_path
         resume_path = filepath

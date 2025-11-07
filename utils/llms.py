@@ -41,11 +41,11 @@ def get_readiness_score(resume_content):
     return chain.invoke(resume_content)
 
 
-def get_interview_ques(job_desc):
+def get_interview_ques(job_desc,len):
     chain = interview_prompt | llm | JsonOutputParser()
-    res = chain.invoke(job_desc)
+    res = chain.invoke({'job_desc':job_desc,'len': len})
     print(res)
-    return res['interview_ques']
+    return res['interview_questions']
 
 
 def is_answer(ques,answer):
